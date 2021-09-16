@@ -1,0 +1,43 @@
+﻿@model PlanoContaModel
+
+<h3>Criar Plano de Contas</h3>
+
+@{
+    var vDescricao = "";
+    var vTipo = "";
+    var vId = 0;
+
+    try
+    {
+        vId = @ViewBag.Registro.Id;
+        vDescricao = @ViewBag.Registro.Descricao.ToString();
+        vTipo = @ViewBag.Registro.Tipo.ToString();
+    }
+    catch { }
+}
+
+<form asp-controller="PlanoConta" asp-action="CriarPlanoConta">
+    <div class="form-group">
+        <label>Descrição:</label>
+        <input type="text" class="form-control" asp-for="Descricao" value="@vDescricao" />
+        <span asp-validation-for="Descricao" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Tipo:</label><br />
+        @{if (vTipo == "R")
+            {
+                <label><input type="radio" asp-for="Tipo " value="R" checked />Receita</label><br />
+                <label><input type="radio" asp-for="Tipo " value="D" unchecked />Despesa</label>
+            }
+            else
+            {
+                <label><input type="radio" asp-for="Tipo " value="R" unchecked />Receita</label><br />
+                <label><input type="radio" asp-for="Tipo " value="D" checked />Despesa</label>
+            }
+        }
+    </div>
+
+    <button type="submit" class="btn btn-block btn-success">Registrar</button>
+
+</form>
+

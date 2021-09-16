@@ -1,0 +1,20 @@
+﻿<h2>Tem certeza em excluir esta transação?</h2>
+<p><b>Id: </b>@ViewBag.Registro.Id</p>
+<p><b>Histórico: </b>@ViewBag.Registro.Descricao</p>
+<p><b>Data: </b>@ViewBag.Registro.Data</p>
+
+<button class="btn btn-danger btn-block" onclick="Excluir()">Excluir</button>
+<button class="btn btn-default btn-block" onclick="Cancelar()">Cancelar</button>
+
+<script>
+    function Excluir()
+    {
+        window.location.href = "../../Transacao/Excluir/" + @ViewBag.Registro.Id;
+    }
+
+    function Cancelar()
+    {
+        window.location.href = "../../Transacao/Index";
+    }
+</script>
+

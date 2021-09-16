@@ -1,0 +1,90 @@
+﻿@model TransacaoModel
+
+<h3>Extrato</h3>
+
+<div class="container">
+    <form asp-controller="Transacao" asp-action="Extrato">
+        <div class="form-group">
+            <label>Data inicial:</label>
+            <input type="date" class="form-control" asp-for="Data" />
+            <span asp-validation-for="Data" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Data final:</label>
+            <input type="date" class="form-control" asp-for="DataFinal" />
+            <span asp-validation-for="DataFinal" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Tipo:</label><br />
+            <label><input type="radio" asp-for="Tipo" value="A" checked />Receitas e Despesas</label><br />
+            <label><input type="radio" asp-for="Tipo" value="R" />Receita</label><br />
+            <label><input type="radio" asp-for="Tipo" value="D" />Despesa</label>
+        </div>
+        <div class="form-group">
+            <label>Conta:</label>
+            <select asp-for="Conta_Id" class="form-control">
+                @foreach (var item in (List<ContaModel>)ViewBag.ListaContas)
+                {
+                    <option value="@item.Id.ToString()">@item.Nome.ToString()</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-block btn-sucess" >Pesquisar</button>
+    </form>
+
+</div>
+<br />
+<table class="table table-bordered">
+    <thead>
+    <th>#</th>
+    <th>Id</th>
+    <th>Histórico</th>
+    <th>Tipo</th>
+    <th>Valor</th>
+    <th>Data</th>
+    <th>Conta</th>
+    <th>Plano de Contas</th>
+    </thead>
+
+    @{
+        var TotalReceitas = 0.0;
+        var TotalDespesas = 0.0;
+        var vSaldo = 0.0;
+    }
+
+    @{foreach (var item in (List<TransacaoModel>)ViewBag.ListaTransacao)
+        {
+            <tbody>
+                <tr>
+
+                    <td><a href="../Transacao/Registrar/@item.Id"><button class="btn btn-primary">Editar</button></a></td>
+                    <td>@item.Id.ToString()</td>
+                    <td>@item.Descricao.ToString()</td>
+                    <td>@item.Tipo.ToString().Replace("R", "Receita").Replace("D", "Despesa")</td>
+                    <td>R$ @item.Valor.ToString()</td>
+                    <td>@item.Data.ToString()</td>
+                    <td>@item.DescricaoConta.ToString()</td>
+                    <td>@item.DescricaoPlanoConta.ToString()</td>
+                </tr>
+            </tbody>
+
+            @if (@item.Tipo.ToString() == "R")
+            {
+                TotalReceitas += item.Valor;
+            }
+            else
+            {
+                TotalDespesas += item.Valor;
+            }
+        }
+    }
+
+    @{ 
+        vSaldo = TotalReceitas - TotalDespesas;
+    }
+
+</table>
+
+<h3><strong>Saldo: </strong>R$ @vSaldo</h3>
+

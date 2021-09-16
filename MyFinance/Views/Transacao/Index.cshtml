@@ -1,0 +1,51 @@
+﻿<h3>Minhas transações</h3>
+
+<table class="table table-bordered">
+    <thead>
+    <th>#</th>
+    <th>#</th>
+    <th>Id</th>
+    <th>Histórico</th>
+    <th>Tipo</th>
+    <th>Valor</th>
+    <th>Data</th>
+    <th>Conta</th>
+    <th>Plano de Contas</th>
+    </thead>
+    @{foreach (var item in (List<TransacaoModel>)ViewBag.ListaTransacao)
+        {
+            <tbody>
+                <tr>
+
+                    <td><a href="../Transacao/Registrar/@item.Id"><button class="btn btn-primary">Editar</button></a></td>
+                    <td><a href="../Transacao/ExcluirTransacao/@item.Id"><button class="btn btn-danger">Excluir</button></a></td>
+                    <td>@item.Id.ToString()</td>
+                    <td>@item.Descricao.ToString()</td>
+                    <td>@item.Tipo.ToString().Replace("R", "Receita").Replace("D", "Despesa")</td>
+                    <td>R$ @item.Valor.ToString()</td>
+                    <td>@item.Data.ToString()</td>
+                    <td>@item.DescricaoConta.ToString()</td>
+                    <td>@item.DescricaoPlanoConta.ToString()</td>
+                </tr>
+            </tbody>
+        }
+    }
+</table>
+
+<button type="button" class="btn btn-block btn-primary" onclick="RegistrarTransacao()">Registrar transação</button>
+
+<script>
+    function RegistrarTransacao() {
+        window.location.href = "../Transacao/Registrar";
+    }
+
+    function ExcluirTransacao(id) {
+        window.location.href = "../Transacao/ExcluirTransacao/" + id;
+    }
+
+    function EditarTransacao(id) {
+        window.location.href = "../Transacao/Registrar/" + id;
+    }
+
+</script>
+
